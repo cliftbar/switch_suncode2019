@@ -1,6 +1,6 @@
 # Template file for run.py, which is used to start the development werkzeug server
 
-from flask_app.app import app
+from switch_api.app import app
 
 # Label server as development
 app.env = 'development'

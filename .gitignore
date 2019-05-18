@@ -39,9 +39,9 @@ rebase.log
 *.test.*
 *.temp.*
 
-####################
-# flask_app Ignore #
-####################
+#####################
+# switch_api Ignore #
+#####################
 
 # Ignore the default data folder.  We should not check in raw data.
 container_libs/*

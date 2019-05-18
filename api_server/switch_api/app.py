@@ -2,7 +2,7 @@ from flask import Flask
 from flask_restful import Api
 
 #  API imports
-import flask_app.endpoints.v1 as v1
+import switch_api.endpoints.v1 as v1
 
 # Initialize Flask App and API interface
 app = Flask(__name__)

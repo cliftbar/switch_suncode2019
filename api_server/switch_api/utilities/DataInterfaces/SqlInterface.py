@@ -14,7 +14,7 @@ from sqlalchemy.engine.base import Engine
 from sqlalchemy.engine.base import Connection
 from contextlib import contextmanager
 
-from flask_app.utilities.DataInterfaces import ConnectionOptions
+from switch_api.utilities.DataInterfaces import ConnectionOptions
 
 logger = logging.getLogger(__name__)
 

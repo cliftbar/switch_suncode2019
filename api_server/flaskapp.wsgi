@@ -1,1 +1,1 @@
-from flask_app.app import app as application
+from switch_api.app import app as application

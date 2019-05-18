@@ -1,6 +1,6 @@
 #!/bin/bash
 # Control script for WeatherCollection docker image.  Contains some basic commands for build and run
-base_name="flask_app"
+base_name="switch_api"
 base_tag="latest"
 
 get_dockerhost_ip(){

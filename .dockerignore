@@ -1,0 +1,5 @@
+# Items that aren't build essential to keep out of the Docker Image
+requirements/*.py
+docker
+*.md
+docker_control.sh

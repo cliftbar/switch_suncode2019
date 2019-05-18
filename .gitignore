@@ -1,0 +1,49 @@
+##################
+# Default ignore #
+##################
+
+# Don't check in security files
+*.pem
+*.pem*
+tls/*
+
+# Ignore compiled Python
+__pycache__
+*.pyc
+
+# Ignore config files, they hold secrets.
+*.config
+
+# Ignore output and rebase files, they don't need to be version controlled
+output/*
+rebase.log
+
+# Ignore pytest cache files from testing framework
+.pytest_cache
+
+# Ignore IDE specific files.
+.idea/
+.vscode/
+*.sublime-project
+*.sublime-workspace
+.ipynb_checkpoints
+
+# Ignore OSx thing
+.DS_Store
+
+# Always include .keep files.  Use this to force git to check in directory structures,
+# as git doesn't track empty directories
+!.keep
+
+# Ignore some URI segments so we can have local test and temp files
+*.test.*
+*.temp.*
+
+####################
+# flask_app Ignore #
+####################
+
+# Ignore the default data folder.  We should not check in raw data.
+container_libs/*
+run.py
+

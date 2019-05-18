@@ -75,8 +75,19 @@ class GenabilityApiInterface:
                 }
             }
         }
-        self.send_api_request(endpoint_url=enpoint_url, verb='put', data=api_body)
-        return account_uuid
+        api_response = self.send_api_request(endpoint_url=enpoint_url, verb='put', data=api_body)
+
+        tariff_endpoint_url = f"accounts/pid/{account_uuid}/properties"
+
+        tariff_body = {
+            "keyName": "masterTariffId",
+            "dataValue": "3251052",
+            "accuracy": 100
+        }
+
+        tariff_response = self.send_api_request(tariff_endpoint_url, 'put', tariff_body)
+
+        return api_response
 
     def get_account(self, account_uuid: str) -> Dict:
         enpoint_url = f"accounts/pid/{account_uuid}"
@@ -113,17 +124,17 @@ class GenabilityApiInterface:
         endpoint_url: str = "profiles"
         profile_uuid: str = str(uuid.uuid4())
         api_body = {
-            "providerAccountId": account_uuid,
+            "accountId": account_uuid,
             "providerProfileId": profile_uuid,
             "profileName": profile_name,
-            "description": "r",
+            "description": "",
             "isDefault": True,
             "serviceTypes": service_type.value,
             "sourceId": "ReadingEntry",
             "readingData": input_data
         }
         api_response = self.send_api_request(endpoint_url, 'put', data=api_body)
-        print(api_response)
+        # print(api_response)
         return api_response
 
     def create_customer_solar_profile(self,
@@ -157,7 +168,27 @@ class GenabilityApiInterface:
             }
         }
         api_response = self.send_api_request(endpoint_url, 'put', data=api_body)
-        print(api_response)
+        # print(api_response)
+        return api_response
+
+    def create_customer_storage_profile(self,
+                                        account_uuid,
+                                        input_data,
+                                        profile_name,
+                                        service_type: ServiceType = ServiceType.electricity) -> Dict:
+        endpoint_url: str = "profiles"
+        profile_uuid: str = str(uuid.uuid4())
+
+        api_body: Dict = {
+            "providerAccountId": account_uuid,
+            "providerProfileId": profile_uuid,
+            "profileName": profile_name,
+            "serviceTypes": service_type.value,
+            "sourceId": "ReadingEntry",
+            "readingData": input_data
+        }
+        api_response = self.send_api_request(endpoint_url, 'put', data=api_body)
+        # print(api_response)
         return api_response
 
     def post_greenbutton_profile(self, account_id, greenbutton_data: str = None):
@@ -180,7 +211,6 @@ class GenabilityApiInterface:
         api_response: requests.Response = requests.post(url_string, data=api_body, files=('file', files), auth=auth_tuple)
 
         api_response = self.send_api_request(endpoint_url, 'post', api_body)
-        print(api_response)
         return api_response
 
     def get_profile(self, account_id, profile_id) -> requests.Response:
@@ -191,7 +221,30 @@ class GenabilityApiInterface:
         response = self.send_api_request(endpoint_url, 'get', api_params)
         return response
 
-    def calculate_base_costs(self, from_time, to_time, account_id, solar_profile_id, group_by: str = 'MONTH'):
+    def calculate_base_costs(self, from_time, to_time, account_id, solar_profile_id, group_by: str = 'HOUR'):
+        endpoint_url = f"accounts/pid/{account_id}/calculate"
+
+        api_body = {
+            "fromDateTime": from_time,
+            "toDateTime": to_time,
+            "useIntelligentBaselining": "true",
+            "includeDefaultProfile": "false",
+            "autoBaseline": "true",
+            "minimums": "false",
+            "detailLevel": "CHARGE_TYPE_AND_TOU",
+            "groupBy": group_by,
+            "fields": "EXT",
+            "tariffInputs": [{
+                "keyName": "profileId",
+                "dataValue": solar_profile_id,
+                "operator": "-"
+            }]
+        }
+        api_response = self.send_api_request(endpoint_url, 'post', api_body)
+
+        return api_response
+
+    def calculate_storage_costs(self, from_time, to_time, account_id, solar_profile_id, storage_id, group_by: str = 'HOUR'):
         endpoint_url = f"accounts/pid/{account_id}/calculate"
 
         api_body = {
@@ -201,18 +254,73 @@ class GenabilityApiInterface:
             "includeDefaultProfile": "true",
             "autoBaseline": "true",
             "minimums": "false",
-            "detailLevel": "CHARGE_TYPE_AND_TOU",
-            "groupBy": "HOUR",
+            "detailLevel": "CHARGE_TYPE",
+            "groupBy": group_by,
             "fields": "EXT",
-            "tariffInputs": [{
-                "keyName": "profileId",
-                "dataValue": solar_profile_id,
-                "operator": "-"
-            }]
+            "tariffInputs": [
+                {
+                    "keyName": "profileId",
+                    "dataValue": storage_id,
+                    "operator": "-"
+                },
+                {
+                    "keyName": "profileId",
+                    "dataValue": solar_profile_id,
+                    "operator": "+"
+                }
+            ]
         }
-        api_response = self.send_api_request(endpoint_url, )
-        pass
+        api_response = self.send_api_request(endpoint_url, 'post', api_body)
+
+        return api_response
 
     def create_net_hourly_profile(self):
         # also uses the calculate endpoint
         pass
+
+    def run_analysis(self, account_id, usage_id, solar_id, storage_id, from_date):
+        endpoint_url = "accounts/analysis"
+        api_body = {
+          "providerAccountId" : account_id,
+          "fromDateTime" : from_date,
+          "fields": "ext",
+          "propertyInputs" : [ {
+            "scenarios" : "before",
+            "keyName" : "masterTariffId",
+            "dataValue" : "2415"
+          }, {
+            "scenarios" : "before,after",
+            "keyName" : "rateInflation",
+            "dataValue" : "3.5"
+          }, {
+            "scenarios" : "solar",
+            "keyName" : "rateInflation",
+            "dataValue" : "1.9"
+          }, {
+            "scenarios" : "after,solar",
+            "keyName" : "solarDegradation",
+            "dataValue" : "1.5"
+          }, {
+            "scenarios" : "before, after",
+            "keyName" : "providerProfileId",
+            "dataValue" : usage_id
+          }, {
+            "scenarios" : "after, solar",
+            "keyName" : "profileId",
+            "dataValue" : solar_id
+          }, {
+            "scenarios" : "after",
+            "keyName" : "profileId",
+            "dataValue" : storage_id,
+            "operator": "+"
+          } ],
+          "rateInputs" : [ {
+            "scenarios" : "solar",
+            "chargeType" : "FIXED_PRICE",
+            "rateBands" : [ {
+              "rateAmount" : 137.05
+            } ]
+          } ]
+        }
+        api_response = self.send_api_request(endpoint_url, 'post', api_body)
+        return api_response

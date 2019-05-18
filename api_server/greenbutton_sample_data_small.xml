@@ -1,0 +1,80 @@
+<?xml version="1.0"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <id>urn:uuid:5762c9e8-4e65-3b0c-83b3-7874683f3dbe</id>
+  <link href="/v1/espi_third_party_batch_feed" rel="self">
+  </link>
+  <title type="text">Opower ESPI Third Party Batch Feed v1</title>
+  <updated>2012-01-18T20:56:25.118Z</updated>
+  <entry>
+    <id>urn:uuid:64f9f540-346c-345d-bdf1-0305c421ed58</id>
+    <link href="/v1/User/10224128/UsagePoint/6478986" rel="self">
+    </link>
+    <link href="/v1/User/10224128/UsagePoint/6478986/MeterReading/1" rel="related">
+    </link>
+    <title type="text">123 ACME STREET SAN FRANCISCO CA 94115-1518</title>
+    <updated>2012-01-18T20:56:25.118Z</updated>
+    <published>2011-11-30T12:00:00.000Z</published>
+    <content type="xml">
+      <UsagePoint xmlns="http://naesb.org/espi">
+        <ServiceCategory>
+          <kind>0</kind>
+        </ServiceCategory>
+      </UsagePoint>
+    </content>
+  </entry>
+  <entry>
+    <id>urn:uuid:dd23ee86-40c6-3b06-b536-cb5b078d20e0</id>
+    <link href="/v1/User/10224128/UsagePoint/6478986/MeterReading/1" rel="self">
+    </link>
+    <link href="/v1/ReadingType/1" rel="related">
+    </link>
+    <link href="/v1/User/10224128/UsagePoint/6478986/MeterReading/1/IntervalBlock/1" rel="related">
+    </link>
+    <updated>2012-01-18T20:56:25.118Z</updated>
+    <published>2011-11-30T12:00:00.000Z</published>
+    <content type="xml">
+      <MeterReading xmlns="http://naesb.org/espi">
+      </MeterReading>
+    </content>
+  </entry>
+  <entry>
+    <id>urn:uuid:4e1226d5-5172-3fdf-adf6-4001aee94849</id>
+    <link href="/v1/ReadingType/1" rel="self">
+    </link>
+    <updated>2012-01-18T20:56:25.118Z</updated>
+    <published>2011-11-30T12:00:00.000Z</published>
+    <content type="xml">
+      <ReadingType xmlns="http://naesb.org/espi">
+        <powerOfTenMultiplier>0</powerOfTenMultiplier>
+        <uom>72</uom>
+      </ReadingType>
+    </content>
+  </entry>
+  <entry>
+    <id>urn:uuid:a5545b2f-bc83-3b44-9818-f10d59e8645e</id>
+    <link href="/v1/User/10224128/UsagePoint/6478986/MeterReading/1/IntervalBlock/1" rel="self">
+    </link>
+    <content type="xml">
+      <IntervalBlock xmlns="http://naesb.org/espi">
+        <interval>
+          <duration>2764800</duration>
+          <start>1324184400</start>
+        </interval>
+        <IntervalReading>
+          <timePeriod>
+            <duration>900</duration>
+            <start>1324184400</start>
+          </timePeriod>
+          <value>81</value>
+        </IntervalReading>
+        <IntervalReading>
+          <timePeriod>
+            <duration>900</duration>
+            <start>1324185300</start>
+          </timePeriod>
+          <value>71</value>
+        </IntervalReading>
+      </IntervalBlock>
+    </content>
+  </entry>
+</feed>

@@ -17,3 +17,7 @@ version = 'v1'
 # Status check
 endpoint_prefix: str = 'status'
 api.add_resource(v1.Status.Status, f'/{version}/{endpoint_prefix}', endpoint=f"Status_{version}")
+
+# Test
+endpoint_prefix: str = 'test'
+api.add_resource(v1.Test.Test, f'/{version}/{endpoint_prefix}', endpoint=f"Test_{version}")

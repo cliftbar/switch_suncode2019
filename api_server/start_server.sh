@@ -28,7 +28,7 @@ prd() {
         --threads 5 \
         --server-status \
         --include-file ./server_conf/server_status.conf \
-        ./flaskapp.wsgi
+        ./switch_api.wsgi
 }
 
 # Activate conda environment if the environment variable is set and that environment ins't active.

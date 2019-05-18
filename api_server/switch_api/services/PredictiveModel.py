@@ -25,7 +25,7 @@ class PredictiveModel:
         pass
 
     @abstractmethod
-    def _inner_predict(self, prediction_times, predictor_variable_values, **kwargs):
+    def _inner_predict(self, prediction_times, **kwargs):
         pass
 
     @abstractmethod
@@ -60,39 +60,45 @@ class BoostedRegressor(PredictiveModel):
         self.model.fit(training_data)
         return training_data
 
-    def _inner_predict(self, prediction_times: List[int], predictor_variable_values):
-        return self.model.predcict(prediction_times)
+    def _inner_predict(self, prediction_times: List[int]):
+        return self.model.predict(prediction_times)
 
     @classmethod
     def factory(cls, model_name: str, model_parameters: Dict) -> 'BoostedRegressor':
         return cls(model_name, model_parameters)
 
 
-class SARIMA:
+class SARIMA(PredictiveModel):
 
     def __init__(self, model_name: str, model_parameters: Dict):
         super().__init__(model_name, model_parameters)
         self.order = (3,1,0)
         if "order" in model_parameters:
             self.order = model_parameters["order"]
-        self.seasonal_order = (1, 0, 0)
+        self.seasonal_order = (2, 1, 0)
         if "seasonal_order" in model_parameters:
             self.seasonal_order = model_parameters["seasonal_order"]
-        self.model = None
+        self.model: SARIMAX = None
 
-
-    def _inner_fit(self, training_data: pd.Series):
+    def _inner_fit(self, training_data: pd.DataFrame):
         self.model = SARIMAX(training_data, order=self.order, seasonal_order=self.seasonal_order)
         self.model.fit()
 
     def _inner_predict(self, prediction_times: List) -> List[float]:
         return self.model.predict(prediction_times)
 
+    @classmethod
+    def factory(cls, model_name: str, model_parameters: Dict) -> 'SARIMA':
+        return cls(model_name, model_parameters)
+
+
 class ModelFactory:
     class AvailableModels(Enum):
         BOOSTED = "boosted_regressor"
+        SARIMA = "seasonal_arima"
 
-    factories = {AvailableModels.BOOSTED.value: BoostedRegressor.factory}
+    factories = {AvailableModels.BOOSTED.value: BoostedRegressor.factory,
+                 AvailableModels.SARIMA.value: SARIMA.factory}
 
     @classmethod
     def factory_caller(cls, model_type: str, model_name: str, model_parameters: Dict) -> PredictiveModel:

@@ -5,7 +5,7 @@ from switch_api.models.DataModel import DataModel
 from switch_api.services.PredictiveModel import PredictiveModel, ModelFactory
 from switch_api.services.GreenButtonParser.parse import parse_feed
 from switch_api.services.GreenButtonParser.resources import MeterReading, IntervalReading, DateTimeInterval
-
+from datetime import datetime
 import sys
 import os
 
@@ -54,6 +54,21 @@ class Services:
             output.append(interval_dict)
         return output
 
+    def reshuffle_data(self, list_of_interval_readings: List[Dict[str, Any]], date_format: str = "%Y-%m-%d %H:%M:%S") -> List[Dict[str, Any]]:
+        shuffled_interval_listings = []
+        for count, interval_dict in enumerate(list_of_interval_readings):
+            datetime_object = datetime.strptime(interval_dict["from_time"], date_format)
+            if datetime_object.month == 1 and datetime_object.day == 1:
+                shuffled_interval_listings = list_of_interval_readings[count:] + list_of_interval_readings[:count]
+        shuffled_value_list = []
+        for interval in shuffled_interval_listings:
+            # assuming it's in Wh and we want to convert to kWh
+            shuffled_value_list.append(interval['value'] / 1000)
+        return shuffled_value_list[:8760]
+
+
 if __name__ == "__main__":
     service = Services()
-    service.get_usage_data()
+    usage_data = service.get_usage_data()
+    shuffled_values = service.reshuffle_data(usage_data)
+    pass

@@ -1,0 +1,75 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>{{address}}</ion-title>
+  </ion-navbar>
+</ion-header>
+
+
+<ion-content padding>
+  <div class="currency">
+      <span text-uppercase class="title">Total Savings</span>
+      <br/>
+      <span class="dollar-amount">{{result?.saving.split(".")[0]}}</span>
+      <span class="change-amount"><sup>{{result?.saving.split(".")[1]}}</sup></span>
+  </div>
+  <br/>
+  <div class="due-date">
+      <span text-uppercase class="title">Start Date</span>
+      <br/>
+      <span class="date">{{startDate}}</span>
+  </div>
+<div class="note">
+<span>
+  Savings will be credited your account if you buy
+</span>
+</div>  
+  <div padding class="signin">
+    <button ion-button block tappable (click)="myOffers()">PRODUCT LIST</button>
+  </div>
+  
+  <ion-list>
+    <ion-list-header mode="md">My Portfolio</ion-list-header>
+    <ion-item >
+      <ion-label>Utility Access</ion-label>
+      <ion-toggle item-end checked="accessSettings.utility" mode="wp" (ionChange)="utitlityAccess($event, 'utility')"></ion-toggle>
+    </ion-item>
+    <ion-item >
+      <ion-label>Solar Access</ion-label>
+      <ion-toggle item-end checked="accessSettings.solar" mode="wp" (ionChange)="solarAccess($event, 'solar')"></ion-toggle>
+    </ion-item>
+  </ion-list>
+  <ion-list>
+    <ion-list-header mode="md">Notifications</ion-list-header>
+    <ion-item no-lines="">
+      <ion-icon name="notifications" item-start></ion-icon>
+      <ion-label>Hourly Savings</ion-label>
+      <ion-toggle item-end [checked]="notificationSettingsdata.hourly" mode="wp" (ionChange)="notificationSettings($event, 'hourly')"></ion-toggle>
+    </ion-item>
+    <ion-item no-lines="">
+      <ion-icon name="notifications" item-start></ion-icon>
+      <ion-label>Daily Savings</ion-label>
+      <ion-toggle item-end [checked]="notificationSettingsdata.daily" mode="wp" (ionChange)="notificationSettings($event, 'daily')"></ion-toggle>
+    </ion-item>
+    <ion-item no-lines="">
+      <ion-icon name="notifications" item-start></ion-icon>
+      <ion-label>Monthly Savings</ion-label>
+      <ion-toggle item-end [checked]="notificationSettingsdata.monthly" mode="wp" (ionChange)="notificationSettings($event, 'monthly')"></ion-toggle>
+    </ion-item>
+    <ion-item no-lines="">
+      <ion-icon name="notifications" item-start></ion-icon>
+      <ion-label>New Product Release</ion-label>
+      <ion-toggle item-end [checked]="notificationSettingsdata.newproductrelease" mode="wp" (ionChange)="notificationSettings($event, 'newproductrelease')"></ion-toggle>
+    </ion-item>
+    <ion-item no-lines="">
+      <ion-icon name="notifications" item-start></ion-icon>
+      <ion-label>Govt Energy Policy Changes</ion-label>
+      <ion-toggle item-end [checked]="notificationSettingsdata.govtrelease" mode="wp" (ionChange)="notificationSettings($event, 'govtrelease')"></ion-toggle>
+    </ion-item>
+    <ion-item no-lines="">
+      <ion-icon name="notifications" item-start></ion-icon>
+      <ion-label>Govt New Initiatives</ion-label>
+      <ion-toggle item-end [checked]="notificationSettingsdata.govtrelease" mode="wp"
+        (ionChange)="notificationSettings($event, 'govtinitiatives')"></ion-toggle>
+    </ion-item>
+  </ion-list>
+</ion-content>

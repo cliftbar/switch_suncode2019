@@ -1,0 +1,77 @@
+page-login {
+  font-family: "Callout" !important;
+  .login-form {
+    margin-top: 30%;
+	}
+	.header {
+		font-family: "OpenSans-Light" !important;
+		margin-top: 100px;
+    font-size: 100px;
+		text-align: center !important;
+	}
+  .split-content{
+    float:left;
+    width: 90%;
+    border: 1px solid $gray-light;
+    margin-left: 20px;
+    margin-bottom: 20px;
+
+  }
+  .item-inner {
+		border-bottom: 1px solid $daybreakHover!important;
+	}
+	.label[stacked], .label-text {
+		font-size: 2rem;
+		color: $nightfall;
+		text-transform: uppercase;
+	}
+	.label {
+
+		font-size: 2rem;
+		color: $nightfall;
+		text-transform: uppercase;
+	}
+	ion-input, ion-textarea, ion-select, .value {
+		font-size: 2rem;
+		color: $midnightAlt;
+		margin-bottom: 12px;
+	}
+	.text-input, .item-ios.item-label-stacked .text-input {
+		margin: 0!important;
+	}
+	.input-has-focus, .item-input-has-focus {
+		.item-inner {
+			border-bottom: solid 3px $state!important;
+		}
+		.text-input {
+			padding-bottom: 8px;
+			padding-right: 8px;
+			margin: 0px!important;
+		}
+		ion-label.label {
+			color: $state;
+		}
+	}
+
+  .signin {
+    font-family: "OpenSans-Semibold" !important;
+				padding: 50px 16px;
+				button {
+          background-color: $blue;
+					font-size: 2rem;
+          height: 60px;
+				}
+			}
+  .bottom{
+    padding: 20px 16px;
+    font-family: "OpenSans-Light" !important;
+    line-height: 2.3em;
+    font-size: 18px;
+    color: $blue;
+  }
+  .paymentmethods {
+    font-family: "OpenSans-Bold" !important;
+    margin-left: 20px;
+    
+  }
+}

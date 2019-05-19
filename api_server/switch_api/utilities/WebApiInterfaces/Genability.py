@@ -235,7 +235,7 @@ class GenabilityApiInterface:
             "groupBy": group_by,
             "fields": "EXT",
             "tariffInputs": [{
-                "keyName": "profileId",
+                "keyName": "providerProfileId",
                 "dataValue": solar_profile_id,
                 "operator": "-"
             }]
@@ -259,12 +259,12 @@ class GenabilityApiInterface:
             "fields": "EXT",
             "tariffInputs": [
                 {
-                    "keyName": "profileId",
+                    "keyName": "providerProfileId",
                     "dataValue": storage_id,
                     "operator": "-"
                 },
                 {
-                    "keyName": "profileId",
+                    "keyName": "providerProfileId",
                     "dataValue": solar_profile_id,
                     "operator": "+"
                 }
@@ -284,19 +284,12 @@ class GenabilityApiInterface:
           "providerAccountId" : account_id,
           "fromDateTime" : from_date,
           "fields": "ext",
-          "propertyInputs" : [ {
-            "scenarios" : "before",
-            "keyName" : "masterTariffId",
-            "dataValue" : "2415"
-          }, {
-            "scenarios" : "before,after",
+          "propertyInputs" : [{
+            "scenarios" : "before,solar,after",
             "keyName" : "rateInflation",
             "dataValue" : "3.5"
-          }, {
-            "scenarios" : "solar",
-            "keyName" : "rateInflation",
-            "dataValue" : "1.9"
-          }, {
+          },
+          {
             "scenarios" : "after,solar",
             "keyName" : "solarDegradation",
             "dataValue" : "1.5"
@@ -305,22 +298,17 @@ class GenabilityApiInterface:
             "keyName" : "providerProfileId",
             "dataValue" : usage_id
           }, {
-            "scenarios" : "after, solar",
-            "keyName" : "profileId",
-            "dataValue" : solar_id
+            "scenarios" : "after,solar",
+            "keyName" : "providerProfileId",
+            "dataValue" : solar_id,
+                  "operator": "+"
           }, {
             "scenarios" : "after",
-            "keyName" : "profileId",
+            "keyName" : "providerProfileId",
             "dataValue" : storage_id,
             "operator": "+"
           } ],
-          "rateInputs" : [ {
-            "scenarios" : "solar",
-            "chargeType" : "FIXED_PRICE",
-            "rateBands" : [ {
-              "rateAmount" : 137.05
-            } ]
-          } ]
+
         }
         api_response = self.send_api_request(endpoint_url, 'post', api_body)
         return api_response

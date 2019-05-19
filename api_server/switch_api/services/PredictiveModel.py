@@ -3,6 +3,7 @@ from enum import Enum
 from typing import Dict, List
 from sklearn.ensemble import GradientBoostingRegressor
 import pandas as pd
+from statsmodels.tsa.statespace.mlemodel import MLEResults
 from statsmodels.tsa.statespace.sarimax import SARIMAX
 
 
@@ -18,7 +19,7 @@ class PredictiveModel:
 
     def predict(self, prediction_times, **kwargs):
         # to pre-processing if we want
-        self._inner_predict(prediction_times, **kwargs)
+        return self._inner_predict(prediction_times, **kwargs)
 
     @abstractmethod
     def _inner_fit(self, training_data: pd.DataFrame, **kwargs):
@@ -72,20 +73,21 @@ class SARIMA(PredictiveModel):
 
     def __init__(self, model_name: str, model_parameters: Dict):
         super().__init__(model_name, model_parameters)
-        self.order = (3,1,0)
+        self.order = (4, 1, 0)
         if "order" in model_parameters:
             self.order = model_parameters["order"]
-        self.seasonal_order = (2, 1, 0)
+        self.seasonal_order = (2, 1, 1, 12)
         if "seasonal_order" in model_parameters:
             self.seasonal_order = model_parameters["seasonal_order"]
         self.model: SARIMAX = None
 
     def _inner_fit(self, training_data: pd.DataFrame):
         self.model = SARIMAX(training_data, order=self.order, seasonal_order=self.seasonal_order)
-        self.model.fit()
+        self.fit_model: MLEResults = self.model.fit()
 
-    def _inner_predict(self, prediction_times: List) -> List[float]:
-        return self.model.predict(prediction_times)
+    def _inner_predict(self, prediction_times: List, start=None, end=None) -> List[float]:
+        results = self.fit_model.predict(start=start, end=end)
+        return results
 
     @classmethod
     def factory(cls, model_name: str, model_parameters: Dict) -> 'SARIMA':

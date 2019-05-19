@@ -69,7 +69,8 @@ class Services:
         return shuffled_value_list[:8760]
 
     def to_dataframe(self, list_interval_readings: List) -> pd.DataFrame:
-        list_of_dicts: List[Dict] = [{interval_dict['from_time']: interval_dict['value']} for interval_dict in list_interval_readings ]
+        list_of_dicts: List[Dict] = [{"value": interval_dict['value'], "from_time": interval_dict['from_time']} for
+                                     interval_dict in list_interval_readings ]
         df = pd.DataFrame(list_of_dicts)
         df.set_index("from_time")
         return df
@@ -83,14 +84,30 @@ if __name__ == "__main__":
     # # df.to_csv(temp_path, columns=None, index=False)
     interval_readings = service.get_usage_data()
     train_df = service.to_dataframe(interval_readings)
-    train_df = train_df[-216:-48]
-    test_times = [interval_dict['from_time'] for interval_dict in interval_readings[-48:]]
+    train_df = train_df['value']
+    train_df = train_df[-350:-48]
+    validate_set = interval_readings[-48:]
+    test_times = [interval_dict['from_time'] for interval_dict in validate_set]
     model_params = {}
+    print("starting to train:")
     trained_model_dict = service.train_model("seasonal_arima", model_parameters=model_params, training_data=train_df)
     trained_model: SARIMA = trained_model_dict["model"]
-    predictions = trained_model.predict(test_times)
-    actual_values = [interval_dict['value'] for interval_dict in interval_readings[-48:]]
+    print("trained_model")
+    predictions = trained_model.predict(None, start=len(train_df), end= len(train_df) + len(validate_set))
+    actual_values = [interval_dict['value'] for interval_dict in validate_set]
     import matplotlib.pyplot as plt
-    plt.plot(test_times, predictions, 'b--', test_times, actual_values, 'g--')
+    import matplotlib.dates as mdates
+    fig = plt.figure()
+    fig.show()
+    ax = fig.add_subplot(111)
+    half = int(len(test_times) / 2)
+    ax.plot_date(test_times[:half], predictions[:half], label="predictions", linestyle="-")
+    ax.plot_date(test_times[:half], actual_values[:half], label="actuals", linestyle="-")
+    # ax.xaxis.set_major_locator(mdates.MinuteLocator(interval=60))  # to get a tick every 15 minutes
+    # ax.xaxis.set_major_formatter(mdates.DateFormatter('%m-%Y %H:%M'))
+    # ax.xticks([test_times[i] for i in range(len(test_times), 5)])
+    # ax.set_xlim(test_times[0], test_times[-1])
+    print(test_times[0], test_times[half])
+    ax.legend()
     plt.show()
     pass

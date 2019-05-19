@@ -1,0 +1,88 @@
+page-home {
+    .signin {
+        font-family: "OpenSans-Semibold" !important;
+                    padding: 50px 16px;
+                    button {
+              background-color: $presidential;
+                        font-size: 2rem;
+              height: 60px;
+                    }
+                }
+
+    .currency{
+        text-align: center;
+        font-family: "Callout" !important;
+        padding-top: 20% !important;
+        .change-amount sup {
+            border-bottom: 1px solid $dusk;
+            font-size: 2em;
+            top: -40px;
+            margin-left: 3px;
+        }
+        .dollar-amount {
+            font-size: 6em;
+        }
+    }
+    .due-date {
+        font-family: "Callout" !important;
+
+        font-size: 3rem;
+        text-align: center;
+
+    }
+    .title {
+        font-size: 1.5rem;
+        font-family: "OpenSans-Semibold" !important;
+
+    }
+    .scroll-content {
+    background-color: #f1f1f1;
+    .list {
+      border-radius: 6px;
+      overflow: hidden;
+      margin: 0 0 16px 0;
+      &:last-child {
+        margin-bottom: 0;
+      }
+      .list-header.item {
+        margin-bottom: 0;
+        border-bottom: 1px solid map_get($colors, lessdark);
+        border-top: 0;
+        margin-top: 0;
+        .item-inner {
+          border-bottom: 0;
+          font-weight: bold;
+          margin-left: 0;
+        }
+      }
+      .item {
+        .icon {
+          font-size: 20px;
+          display: flex;
+          align-items: center;
+          color: map_get($colors, primary);
+        }
+        .item-inner {
+          border-bottom: 1px solid map_get($colors, lessdark);
+          color: #414141;
+          margin-left: 0;
+        }
+        ion-range {
+          padding: 0;
+        }
+      }
+    }
+    .segment_area {
+      background-color: #ffffff;
+      padding: 16px;
+    }
+    .contact_us_area .item .item-inner {
+      margin-left: 0;
+    }
+    .note{
+      padding-top: 20px;
+      color: grey;
+      text-align: center !important;
+    }
+  }
+}

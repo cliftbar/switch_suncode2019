@@ -1,0 +1,4 @@
+#Sat May 18 16:27:12 PDT 2019
+base.0=/Users/haribabugadipudi/sunpower/switch/platforms/android/app/build/intermediates/transforms/dex/release/0
+path.0=classes.dex
+renamed.0=classes.dex

@@ -1,0 +1,52 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const functions = require("firebase-functions");
+exports.login = functions.https.onRequest((request, response) => {
+    if (!(request.body.email === "mobilepay@accela.com" && request.body.password === "demo")) {
+        return response.status(500).send("Wrong user");
+    }
+    return response.status(200).send("demo-token");
+});
+exports.getUserData = functions.https.onRequest((request, response) => {
+    const token = request.get('Authorization');
+    const email = request.get('Email');
+    console.log('request===', token, email);
+    if (token != "demo-token" || email != "mobilepay@accela.com") {
+        return response.status(500).send("Wrong token");
+    }
+    const userData = { "total_amout_due": 10.56,
+        "due_date": "2018-06-30",
+        "account_info": { "account_number": "011176-000",
+            "service_address": { "street": "1234 Main St", "city": "oakland", "state": "ca" },
+            "bills": [{ "key": "water", "value": 5 }, { "key": "garbage", "value": 2 }, { "key": "sewer", "value": 3 }]
+        },
+        "payment_amount": { "total_amount_due": 10.56, "convenience_fee": 2, "service_fee": 0.2 },
+        "cards": [{ "number": "9874631234", "expiration": "06/2019", "type": "visa" }, { "number": "456745674567", "expiration": "07/2019", "type": "master" }]
+    };
+    return response.status(200).send(userData);
+});
+exports.payBill = functions.https.onRequest((request, response) => {
+    return response.send(true);
+});
+exports.addCard = functions.https.onRequest((request, response) => {
+    return response.send(true);
+});
+exports.addBankInfo = functions.https.onRequest((request, response) => {
+    return response.send(true);
+});
+exports.setAutoPay = functions.https.onRequest((request, response) => {
+    return response.send(true);
+});
+exports.resetPassword = functions.https.onRequest((request, response) => {
+    return response.send(true);
+});
+exports.createAccount = functions.https.onRequest((request, response) => {
+    return response.send(true);
+});
+exports.findAccount = functions.https.onRequest((request, response) => {
+    return response.send(true);
+});
+exports.sendEmailReceipt = functions.https.onRequest((request, response) => {
+    return response.send(true);
+});
+//# sourceMappingURL=index.js.map

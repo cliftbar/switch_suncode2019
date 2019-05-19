@@ -1,0 +1,114 @@
+page-make-payment {
+    .paymentmethods {
+        font-family: "OpenSans-Bold" !important;
+        margin-left: 20px;
+        
+      }
+      .pay-other {
+        font-family: "OpenSans-Semibold" !important;
+                        font-size: 2rem;
+              height: 60px;
+              border-color:  $presidential;
+              color: black;
+                }
+      .pay {
+        font-family: "OpenSans-Semibold" !important;
+              background-color: $presidential;
+                        font-size: 2rem;
+              height: 60px;
+                }
+    .account{
+        text-align: center;
+        .title{
+            font-family: "OpenSans" !important;
+            font-size: 2em;
+        }
+        .account-number-text{
+            font-family: "OpenSans-bold" !important;
+            font-size: 1rem
+        }
+        .account-number{
+            font-family: "Callout" !important;
+            font-size: 2rem
+
+        }
+    }
+      
+    .address{
+        text-align: center;
+        .title{
+            font-family: "OpenSans-bold" !important;
+            font-size: 1rem
+
+        }
+        .addressline{
+            font-family: "Callout" !important;
+            font-size: 2em;
+        }
+    }
+    .item { border-style: none;
+             }
+    
+    .item-ios [item-right], .item-ios [item-end] {
+        text-align: right;
+        margin-right: 50px
+    }
+    .item-ios [item-left], .item-ios [item-start] {
+        text-align: left;
+        margin-left: 40px
+    }
+    .sum {
+        font-weight: bold
+    }
+    .note {
+        font-family: "OpenSans" !important;
+        text-align: center;
+    }
+    .checkbox {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 1.5em;
+    }
+    .circle {
+	border: 2px solid $state;
+	border-radius: 50%;
+	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=60)";
+	filter: alpha(opacity=60);
+	opacity: 0.6;
+
+	-webkit-box-shadow: 0 0 1px 0px rgb( 255, 255, 255);
+	box-shadow: 0 0 1px 0px rgb( 255, 255, 255);
+	width: 18px;
+	height: 18px;
+	z-index: 86;
+
+	-webkit-transition: background-color .5s ease-in-out;
+	-moz-transition: background-color .5s ease-in-out;
+	-o-transition: background-color .5s ease-in-out;
+	-ms-transition: background-color .5s ease-in-out;
+	transition: background-color .5s ease-in-out;
+}
+   .circle.filled {
+	background-color: $state;
+}
+
+.card-image{
+    width: 50px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        filter: blur(0.2px);
+}
+.card-image-notblurr{
+    width: 50px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+}
+.card-text{
+     font-family: "OpenSans" !important;
+            font-size: 1em
+
+}
+}

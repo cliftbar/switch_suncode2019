@@ -1,0 +1,24 @@
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>Product List</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+    <ion-list no-lines>
+      <ion-item class="image-padding"  *ngFor="let product of savingproducts " no-lines>
+        <ion-thumbnail item-start>
+          <img id="rcorners3" src="{{product.image}}">
+        </ion-thumbnail>
+        <h2>{{product.product}}</h2>
+        <p>{{product.provider}}</p>
+        <button ion-button clear item-end tappable (click)="viewProduct(product)">
+          View
+        </button>
+      </ion-item>
+    </ion-list>
+</ion-content>
+
